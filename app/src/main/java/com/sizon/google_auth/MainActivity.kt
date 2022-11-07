@@ -23,6 +23,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -167,6 +170,12 @@ class MainActivity : ComponentActivity() {
             }) {
                 Text(text = "Sign up with google")
             }
+            Spacer(modifier = Modifier.padding(20.dp))
+            Button(onClick = {
+                startActivity(Intent(this@MainActivity, MapsActivity::class.java))
+            }) {
+                Text(text = "Go to maps")
+            }
         }
     }
 
@@ -174,6 +183,12 @@ class MainActivity : ComponentActivity() {
     fun ScreenB() {
         Column() {
             Text(text = "You're signed in!")
+            Spacer(modifier = Modifier.padding(40.dp))
+            Button(onClick = {
+
+            }) {
+                Text(text = "Open maps")
+            }
         }
     }
 
@@ -212,6 +227,19 @@ class MainActivity : ComponentActivity() {
                 // No Google Accounts found. Just continue presenting the signed-out UI.
                 Log.d(TAG, e.localizedMessage)
             }
+    }
+
+    @Composable
+    fun Navigation() {
+        val navController = rememberNavController()
+        NavHost(navController = navController, startDestination = "A"){
+            composable(route = "A") {
+                ScreenA()
+            }
+            composable(route = "B") {
+                ScreenB()
+            }
+        }
     }
 
     @Preview(showBackground = true)
